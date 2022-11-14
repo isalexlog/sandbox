@@ -22,9 +22,9 @@ static void add_syscall(scmp_filter_ctx ctx, const char *syscall, uint32_t actio
 		seccomp_release(ctx);
 		exit(1);
 	}
-
-	if (seccomp_rule_add_exact(ctx, action, syscall_nr, 0)) {
-		fprintf(stderr, "failed to add %s to the seccomp filter context\n", syscall);
+        int result = seccomp_rule_add_exact(ctx, action, syscall_nr, 0);
+	if (result) {
+		fprintf(stderr, "failed to add %s to the seccomp filter context, reason %d\n", syscall);
 		seccomp_release(ctx);
 		exit(1);
 	}
